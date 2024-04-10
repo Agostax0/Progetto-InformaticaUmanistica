@@ -4,31 +4,33 @@ const format_html = "format=text%2Fhtml&";
 const historicOrArtisticProperty = "HistoricOrArtisticProperty"
 const culturalProperty = "CulturalProperty";
 const archaeologicalProperty = "ArchaeologicalProperty";
-
 function generateLoadingQuery(propertyType, keyword){
-    var queryURL = "https://dati.cultura.gov.it/sparql?default-graph-uri=&"
+    var queryURL = 
+    "https://dati.cultura.gov.it/sparql?default-graph-uri=&"
     + format_json
-    + "debug=on&query=" 
-    + "PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>" 
-    + "PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>" 
-    + "SELECT *"
-    + "FROM <https://w3id.org/arco/ontology>"
-    + "FROM <https://w3id.org/arco/data>"
-    + "WHERE {"
-    + " ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ propertyType +" ; arco-cd:hasSubject ?sub ."
-    + " ?sub rdfs:label ?label"
-    + " FILTER(REGEX(STR(?label), \"" + keyword + "\", \"i\"))"
-    + " }"
-    + " LIMIT 3" 
-    ;
+    +"debug=on&query=" 
+    +"PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>"
+    +"PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>"
+    +"SELECT DISTINCT *"
+    +" FROM <https://w3id.org/arco/ontology>"
+    +" FROM <https://w3id.org/arco/data>"
+    +" WHERE {"
+    +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ propertyType + " ; " 
+    +" rdfs:label ?label ; "
+    +" arco-arco:uniqueIdentifier ?uId ; "
+    +" arco-cd:hasDocumentation ?documentation ; "
+    +" foaf:depiction ?foto ;"
+    +" arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel "
+    +" FILTER(REGEX(STR(?subLabel), \"" + keyword + "\", \"i\")) "
+    +" }"
+    +" GROUP BY ?cultpro "
+    +" LIMIT 10"
     return queryURL;
 }
 function generateTable(data){
     const tableNode = document.createElement("table");
 
-    tableNode.className = "sparql"
-    tableNode.border = 1;
-
+    tableNode.className = "table table-primary"
     //generate Table Head
     const tableHead = document.createElement("thead");
     var headers = data.head.vars
@@ -54,11 +56,20 @@ function generateTable(data){
             //TODO operazioni sul 'type'
             if(element[header]["type"] == "uri"){
                 
-                var a = document.createElement("a");
-                a.href = element[header]['value'];
-                a.text = element[header]['value'];
-                
-                tableBodyRowElement.appendChild(a);
+                if(header == "foto"){
+                    var img = document.createElement("img");
+                    img.src = element[header]['value'];
+                    img.height = 100;
+                    img.width = 100;
+                    tableBodyRowElement.appendChild(img);
+                }
+                else{
+                    var a = document.createElement("a");
+                    a.href = element[header]['value'];
+                    a.text = element[header]['value'];
+                    
+                    tableBodyRowElement.appendChild(a);
+                }
             }
             else{
                 tableBodyRowElement.textContent = element[header]['value'];
@@ -76,12 +87,19 @@ function generateTable(data){
     return tableNode;
 }
 
+function generateCardElement(){
 
-axios.get(generateLoadingQuery(archaeologicalProperty,""))
-.then(function(value){
-    document.body.appendChild(generateTable(value.data))
-    console.log(value)
-})
-.catch(function(error){
-    console.log(error)
-});
+
+}
+
+//axios.get(generateLoadingQuery(historicOrArtisticProperty,"CHIESA"))
+//.then(function(value){
+//    document.body.appendChild(generateTable(value.data))
+//    console.log(value)
+//})
+//.catch(function(error){
+//    var res = document.createElement("div");
+//    res.innerText = error.response.data;
+//    document.body.appendChild(res);
+//    console.log(error)
+//});
