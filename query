@@ -1,0 +1,46 @@
+#QUERY CARICAMENTO BASE
+PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>
+PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>
+SELECT DISTINCT ?uId, ?label, ?cultpro, ?foto
+FROM <https://w3id.org/arco/ontology>
+FROM <https://w3id.org/arco/data>
+WHERE {
+?cultpro rdf:type/rdfs:subClassOf* arco-arco:CulturalProperty ;
+rdfs:label ?label ; 
+arco-arco:uniqueIdentifier ?uId ; 
+arco-cd:hasDocumentation ?documentation ; 
+foaf:depiction ?foto ; 
+arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel 
+FILTER(lang(?label) = 'it')
+}
+LIMIT 10
+
+#QUERY CHIESE IN ROMAGNA
+PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>
+PREFIX arco-location: <https://w3id.org/arco/ontology/location/>
+PREFIX CLV: <https://w3id.org/italia/onto/CLV/>
+PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/>
+SELECT  (count(distinct ?cultpro) as ?count)
+WHERE {
+ ?cultpro a arco-arco:ArchitecturalOrLandscapeHeritage.
+ ?cultpro arco-location:hasCulturalPropertyAddress ?address.
+ ?address CLV:hasRegion ?region.
+ ?region rdfs:label ?regNome.
+ ?cultpro arco-dd:hasCulturalPropertyType ?type.
+ ?type arco-dd:hasCulturalPropertyDefinition ?def
+ FILTER regex(?regNome, "Emilia-Romagna", "i")
+ FILTER regex(?def, "chiesa", "i")
+} 
+
+#FILTRO SUL LINGUAGGIO DI UNA VARIABILE
+PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>
+PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>
+SELECT DISTINCT *
+FROM <https://w3id.org/arco/ontology>
+FROM <https://w3id.org/arco/data>
+WHERE {
+?cultpro rdf:type/rdfs:subClassOf* arco-arco:CulturalProperty ; 
+ rdfs:label ?label
+ FILTER(lang(?label) = 'it')
+}
+LIMIT 10
