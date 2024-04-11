@@ -4,6 +4,7 @@ const format_html = "format=text%2Fhtml&";
 const historicOrArtisticProperty = "HistoricOrArtisticProperty"
 const culturalProperty = "CulturalProperty";
 const archaeologicalProperty = "ArchaeologicalProperty";
+
 function generateLoadingQuery(propertyType, keyword){
     var queryURL = 
     "https://dati.cultura.gov.it/sparql?default-graph-uri=&"
@@ -17,13 +18,13 @@ function generateLoadingQuery(propertyType, keyword){
     +" WHERE {"
     +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ propertyType + " ; " 
     +" rdfs:label ?label ; "
-    +" arco-arco:uniqueIdentifier ?uId ; "
-    +" arco-cd:hasDocumentation ?documentation ; "
-    +" foaf:depiction ?foto ;"
-    +" arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel "
-    +" FILTER(REGEX(STR(?subLabel), \"" + keyword + "\", \"i\")) "
+    //+" arco-arco:uniqueIdentifier ?uId ; "
+    //+" arco-cd:hasDocumentation ?documentation ; "
+    +" foaf:depiction ?foto ; "
+    //+" arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel "
+    //+" FILTER(REGEX(STR(?subLabel), \"" + keyword + "\", \"i\")) "
+    " FILTER(lang(?label) = 'it')"
     +" }"
-    +" GROUP BY ?cultpro "
     +" LIMIT 10"
     return queryURL;
 }
@@ -92,14 +93,18 @@ function generateCardElement(){
 
 }
 
-//axios.get(generateLoadingQuery(historicOrArtisticProperty,"CHIESA"))
-//.then(function(value){
-//    document.body.appendChild(generateTable(value.data))
-//    console.log(value)
-//})
-//.catch(function(error){
-//    var res = document.createElement("div");
-//    res.innerText = error.response.data;
-//    document.body.appendChild(res);
-//    console.log(error)
-//});
+console.log("query");
+
+
+
+axios.get(generateLoadingQuery(historicOrArtisticProperty,"CHIESA"))
+.then(function(value){
+    document.body.appendChild(generateTable(value.data))
+    console.log(value)
+})
+.catch(function(error){
+    var res = document.createElement("div");
+    res.innerText = error.response;
+    document.body.appendChild(res);
+    console.log(error)
+});
