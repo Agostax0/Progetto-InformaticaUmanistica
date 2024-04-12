@@ -1,11 +1,11 @@
 const format_json = "format=application%2Fsparql-results%2Bjson&";
 const format_html = "format=text%2Fhtml&";
 
-const historicOrArtisticProperty = "HistoricOrArtisticProperty"
+const historicOrArtisticProperty = "HistoricOrArtisticProperty";
 const culturalProperty = "CulturalProperty";
 const archaeologicalProperty = "ArchaeologicalProperty";
 
-function generateLoadingQuery(propertyType, keyword){
+function queryCaricamentoPagina(){
     var queryURL = 
     "https://dati.cultura.gov.it/sparql?default-graph-uri=&"
     + format_json
@@ -16,18 +16,74 @@ function generateLoadingQuery(propertyType, keyword){
     +" FROM <https://w3id.org/arco/ontology>"
     +" FROM <https://w3id.org/arco/data>"
     +" WHERE {"
-    +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ propertyType + " ; " 
+    +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ; " 
     +" rdfs:label ?label ; "
-    //+" arco-arco:uniqueIdentifier ?uId ; "
-    //+" arco-cd:hasDocumentation ?documentation ; "
-    +" foaf:depiction ?foto ; "
-    //+" arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel "
-    //+" FILTER(REGEX(STR(?subLabel), \"" + keyword + "\", \"i\")) "
-    " FILTER(lang(?label) = 'it')"
+    +" foaf:depiction ?foto "
+    +" FILTER(lang(?label) = 'it')"
     +" }"
     +" LIMIT 10"
     return queryURL;
 }
+
+function queryConFiltri(parolaChiave, regione){
+    var filteredQueryURL = 
+    "https://dati.cultura.gov.it/sparql?default-graph-uri=&"
+    + format_json
+    +"debug=on&query=" 
+    +"PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/> "
+    +" PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/> "
+    +" SELECT DISTINCT * "
+    +" FROM <https://w3id.org/arco/ontology> "
+    +" FROM <https://w3id.org/arco/data> "
+    +" WHERE { "
+    +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ; " 
+    +" rdfs:label ?label" + " ; "
+    +" arco-cd:hasDocumentation ?documentation" + " ; "
+    +" foaf:depiction ?foto "
+    +" FILTER(lang(?label) = 'it') ";
+    if(parolaChiave != ""){
+        filteredQueryURL+= "FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) ";
+    }
+    if(regione != "") {
+        filteredQueryURL+=" ?cultpro arco-location:hasCulturalPropertyAddress ?address. "
+                        + " ?address CLV:hasRegion ?region. " 
+                        + " ?region rdfs:label ?regNome. " 
+                        + " ?cultpro arco-dd:hasCulturalPropertyType ?type. " 
+                        + " FILTER regex(?regNome, \"" + regione + "\", \"i\") ";
+    }
+    filteredQueryURL+= "}";
+    filteredQueryURL+="LIMIT 10";
+    console.log(filteredQueryURL);
+    return filteredQueryURL;
+}
+
+function generateCardElement(src,desc,link){
+    var card = document.createElement("div");
+    card.className="card";
+
+    var img = document.createElement("img");
+    img.className = "card-img-top";
+    img.src = src;
+    img.alt = desc;
+    card.appendChild(img);
+
+    var cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    var cardDescription = document.createElement("p");
+    cardDescription.textContent = desc;
+
+    var cardLink = document.createElement("a");
+    cardLink.href = link;
+    cardLink.appendChild(cardDescription);
+
+    cardBody.appendChild(cardLink);
+
+    card.appendChild(cardBody);
+
+    return card;
+}
+
 function generateTable(data){
     const tableNode = document.createElement("table");
 
@@ -88,23 +144,31 @@ function generateTable(data){
     return tableNode;
 }
 
-function generateCardElement(){
+function generateCards(data){
+    var cardList = document.getElementById("QueryResultDiv");
+    
+    data.results.bindings.forEach(element=> {
 
+        var colDiv = document.createElement("div");
+        colDiv.className = "col-3";
+
+        colDiv.appendChild(generateCardElement(
+            element['foto']['value'],
+            element['label']['value'],
+            element['cultpro']['value']));
+
+        cardList.appendChild(colDiv);
+
+    });
 
 }
 
-console.log("query");
 
-
-
-axios.get(generateLoadingQuery(historicOrArtisticProperty,"CHIESA"))
+axios.get(queryConFiltri("",""))
 .then(function(value){
-    document.body.appendChild(generateTable(value.data))
-    console.log(value)
+    console.log(value);
+    generateCards(value.data);
 })
 .catch(function(error){
-    var res = document.createElement("div");
-    res.innerText = error.response;
-    document.body.appendChild(res);
-    console.log(error)
+    console.log(error);
 });
