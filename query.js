@@ -7,7 +7,6 @@ const archaeologicalProperty = "ArchaeologicalProperty";
 
 const maxCardsDisplayed = 50;
 
-const halfCardSize = "6";
 const fullCardSize = "12";
 
 function queryConFiltri(parolaChiave, regione){
@@ -44,7 +43,7 @@ function queryConFiltri(parolaChiave, regione){
 
 function generateCardElement(src,desc,link){
     var card = document.createElement("div");
-    card.className="card";
+    card.className="card my-2";
 
     var img = document.createElement("img");
     img.className = "card-img-top";
@@ -56,6 +55,7 @@ function generateCardElement(src,desc,link){
     cardBody.className = "card-body";
 
     var cardDescription = document.createElement("p");
+    cardDescription.className = "text-truncate";
     cardDescription.textContent = desc;
 
     var cardLink = document.createElement("a");
@@ -78,7 +78,7 @@ function generateCards(data){
     var row4 = document.getElementById("row4");
 
     var genericCol = document.createElement("div");
-    genericCol.className = "text-truncate col-";
+    genericCol.className = "col-12";
 
     //divido i risultati nelle 4 righe
 
@@ -90,52 +90,24 @@ function generateCards(data){
             element['label']['value'],
             element['cultpro']['value']);
 
-        var cardSize = Math.random() > 0.5;
-
-        if(cardSize){
-            console.log("COLONNA INTERA");
-        }
-
         //eseguire l'append al padre corretto
-
+        var cardCol = genericCol.cloneNode();
         switch(selectedRow){
             case 0:
-
-                var cardCol = genericCol.cloneNode();
-
-                //aggiungi a row1
-                //controllare che vi siano elementi in row1
-                if(row1.children.length>0){
-                    //verificare la dimensione dell'ultimo elemento 
-                    //ed aggiungere una size dimezzata o intera
-
-                    var isLastCardFullSize = row1.children[row1.children.length-1].className.includes(fullCardSize);
-
-                    
-                    if(isLastCardFullSize){
-                        cardCol.className += (cardSize) ? fullCardSize : halfCardSize;
-                    }
-                    else{
-                        cardCol.className += halfCardSize;
-                    }
-                }
-                else{
-                    //aggiungere semplicemente la size generata
-                    cardCol.className += (cardSize) ? fullCardSize : halfCardSize;
-                }
-
                 cardCol.appendChild(card);
                 row1.appendChild(cardCol);
-
                 break;
             case 1:
-
+                cardCol.appendChild(card);
+                row2.appendChild(cardCol);
                 break;
             case 2:
-                
+                cardCol.appendChild(card);
+                row3.appendChild(cardCol);
                 break;
             case 3:
-
+                cardCol.appendChild(card);
+                row4.appendChild(cardCol);
                 break;
         }
 
