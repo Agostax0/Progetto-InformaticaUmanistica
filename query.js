@@ -52,15 +52,11 @@ function generateCardElement(src,desc,link){
     card.appendChild(img);
 
     var cardBody = document.createElement("div");
-    cardBody.className = "card-body";
-
-    var cardDescription = document.createElement("p");
-    cardDescription.className = "text-truncate";
-    cardDescription.textContent = desc;
+    cardBody.className = "card-body text-justify";
 
     var cardLink = document.createElement("a");
     cardLink.href = link;
-    cardLink.appendChild(cardDescription);
+    cardLink.text = desc;
 
     cardBody.appendChild(cardLink);
 
@@ -118,7 +114,7 @@ function generateCards(data){
 
 }
 
-
+//i parametri da inserire nei filtri vengono presi dai parametri get della pagina index
 axios.get(queryConFiltri("",""))
 .then(function(value){
     console.log(value);
