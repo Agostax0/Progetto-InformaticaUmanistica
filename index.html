@@ -8,7 +8,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            background-color: blue;
+            background-color: rgb(32, 160, 0);
         }
     </style>
     <title>SIUM</title>
@@ -80,38 +80,184 @@
                             </div>
                             <div class="col-4">
                                 <!-- qui ci sono SEARCH BAR e FILTRI -->
-                                <div class="row">
-                                    <div class="col">
-                                        <!-- SEARCH BAR -->
-                                        <div class="container-fluid">
-                                            <form class="d-flex" role="search">
-                                                <input id="search" class="form-control" type="search"
-                                                    placeholder="Search" aria-label="Search">
-                                                <button class="btn btn-outline-success" type="submit">Search</button>
-                                            </form>
-                                        </div>
-                                        <!-- FILTRI DROPDOWN -->
-                                        <!--FILTRO TIPOLOGIA DI BENE-->
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="container-fluid">
-                                                    <a class="btn btn-primary d-flex" data-bs-toggle="collapse"
-                                                        href="#collapseExample" role="button" aria-expanded="false"
-                                                        aria-controls="collapseExample">
-                                                        Link with href
-                                                    </a>
-                                                    <div class="collapse" id="collapseExample">
-                                                        <!--DROPDOWN CON TIPOLOGIA DI BENE-->
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <!-- SEARCH BAR -->
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <input id="searchBar" class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button id="searchBtn" class="btn btn-outline-success" type="button">Search</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- FILTRI DROPDOWN -->
+                                            <!--FILTRO TIPOLOGIA DI BENE-->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="container-fluid">
+                                                        <a class="btn btn-primary d-flex" data-bs-toggle="collapse"
+                                                            href="#collapseTipologia" role="button" aria-expanded="false"
+                                                            aria-controls="collapseTipologia">
+                                                            Link with href
+                                                        </a>
+                                                        <div class="collapse" id="collapseTipologia">
+                                                            <!--DROPDOWN CON TIPOLOGIA DI BENE-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--FILTRO REGIONE-->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="container-fluid">
+                                                        <a class="btn btn-primary d-flex" data-bs-toggle="collapse"
+                                                            href="#collapseRegione" role="button" aria-expanded="false"
+                                                            aria-controls="collapseRegione">
+                                                            Link with href
+                                                        </a>
+                                                        <div class="collapse" id="collapseRegione">
+                                                            <!--DROPDOWN CON FILTRO REGIONE-->
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneCalabria">
+                                                                <label class="form-check-label" for="RegioneCalabria">
+                                                                    Calabria
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneLazio">
+                                                                <label class="form-check-label" for="RegioneLazio">
+                                                                    RegioneLazio
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneLiguria">
+                                                                <label class="form-check-label" for="RegioneLiguria">
+                                                                    RegioneLiguria
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneMarche">
+                                                                <label class="form-check-label" for="RegioneMarche">
+                                                                    RegioneMarche
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneMolise">
+                                                                <label class="form-check-label" for="RegioneMolise">
+                                                                    RegioneMolise
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegionePuglia">
+                                                                <label class="form-check-label" for="RegionePuglia">
+                                                                    RegionePuglia
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneSardegna">
+                                                                <label class="form-check-label" for="RegioneSardegna">
+                                                                    RegioneSardegna
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneToscana">
+                                                                <label class="form-check-label" for="RegioneToscana">
+                                                                    RegioneToscana
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneVeneto">
+                                                                <label class="form-check-label" for="RegioneVeneto">
+                                                                    RegioneVeneto
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneAbruzzo">
+                                                                <label class="form-check-label" for="RegioneAbruzzo">
+                                                                    RegioneAbruzzo
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneCampania">
+                                                                <label class="form-check-label" for="RegioneCampania">
+                                                                    RegioneCampania
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneLombardia">
+                                                                <label class="form-check-label" for="RegioneLombardia">
+                                                                    RegioneLombardia
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegionePiemonte">
+                                                                <label class="form-check-label" for="RegionePiemonte">
+                                                                    RegionePiemonte
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneFriuli-VeneziaGiulia">
+                                                                <label class="form-check-label" for="RegioneFriuli-VeneziaGiulia">
+                                                                    RegioneFriuli-VeneziaGiulia
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneUmbria">
+                                                                <label class="form-check-label" for="RegioneUmbria">
+                                                                    RegioneUmbria
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneTrentino-AltoAdige">
+                                                                <label class="form-check-label" for="RegioneTrentino-AltoAdige">
+                                                                    RegioneTrentino-AltoAdige
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneSicilia">
+                                                                <label class="form-check-label" for="RegioneSicilia">
+                                                                    RegioneSicilia
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneBasilicata">
+                                                                <label class="form-check-label" for="RegioneBasilicata">
+                                                                    RegioneBasilicata
+                                                                </label>
+                                                              </div>
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneValleAosta">
+                                                                <label class="form-check-label" for="RegioneValleAosta">
+                                                                    RegioneValleAosta
+                                                                </label>
+                                                              </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneEmiliaRomagna">
+                                                                <label class="form-check-label" for="RegioneEmiliaRomagna">
+                                                                    Emilia Romagna
+                                                                </label>
+                                                              </div>
+                                                              
+                                                              <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneToscana">
+                                                                <label class="form-check-label" for="RegioneToscana">
+                                                                    Toscana
+                                                                </label>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--FILTRO TIPOLOGIA-->
+    
                                         </div>
-                                        <!--FILTRO REGIONE-->
-
-                                        <!--FILTRO TIPOLOGIA-->
-
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
