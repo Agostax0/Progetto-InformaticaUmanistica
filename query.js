@@ -157,7 +157,7 @@ searchBtn.addEventListener('click', (evt) => {
 
     //fai partire la nuova query con tutti i parametri
 
-    //query(searchBarText, selectedRegione);
+    query(searchBarText, selectedRegione);
 });
 
 function query(keyword,region){
