@@ -1,13 +1,10 @@
 const format_json = "format=application%2Fsparql-results%2Bjson&";
-const format_html = "format=text%2Fhtml&";
 
 const historicOrArtisticProperty = "HistoricOrArtisticProperty";
 const culturalProperty = "CulturalProperty";
 const archaeologicalProperty = "ArchaeologicalProperty";
 
 const maxCardsDisplayed = 50;
-
-const fullCardSize = "12";
 
 function queryConFiltri(parolaChiave, regione){
     var filteredQueryURL = 
@@ -16,19 +13,17 @@ function queryConFiltri(parolaChiave, regione){
     +"debug=on&query=" 
     +"PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/> "
     +"PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/> "
-    +"PREFIX arco-location: <https://w3id.org/arco/ontology/location/> "
-    +"PREFIX CLV: <https://w3id.org/italia/onto/CLV/> "
-    +"PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/> "
-    +" SELECT DISTINCT * "
+    if(regione != "") {
+        filteredQueryURL+=
+        "PREFIX arco-location: <https://w3id.org/arco/ontology/location/> "
+        +"PREFIX CLV: <https://w3id.org/italia/onto/CLV/> "
+        +"PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/> "
+    }
+    filteredQueryURL+=" SELECT DISTINCT * "
     +" FROM <https://w3id.org/arco/ontology> "
     +" FROM <https://w3id.org/arco/data> "
-    +" WHERE { "
-    +" ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ; " 
-    +" rdfs:label ?label" + " ; "
-    +" arco-cd:hasDocumentation ?documentation" + " ; "
-    +" foaf:depiction ?foto" + " ; "
-    +" arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel "
-    +" FILTER(lang(?label) = 'it') ";
+    +" WHERE {  ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ;  rdfs:label ?label" + " ;  arco-cd:hasDocumentation ?documentation" + " ;  foaf:depiction ?foto" + " ; arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel FILTER(lang(?label) = 'it') ";
+
     if(parolaChiave != ""){
         filteredQueryURL+= "FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) ";
     }
@@ -39,11 +34,21 @@ function queryConFiltri(parolaChiave, regione){
                         + " ?cultpro arco-dd:hasCulturalPropertyType ?type. " 
                         + " FILTER regex(?regNome, \"" + regione + "\", \"i\") ";
     }
-    filteredQueryURL+= "}";
-    filteredQueryURL+="LIMIT " + maxCardsDisplayed;
-    console.log(filteredQueryURL);
+    filteredQueryURL+= "}  LIMIT " + maxCardsDisplayed + "OFFSET " + currentOffset;
+    
+    var queryText = "PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/> \n PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/> \n";
+    if(regione != ""){
+        queryText+="PREFIX arco-location: <https://w3id.org/arco/ontology/location/> \n"
+        +"PREFIX CLV: <https://w3id.org/italia/onto/CLV/> \n"
+        +"PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/> \n";
+    }
+    
+    //TODO
+
     return filteredQueryURL;
 }
+
+
 
 function generateCardElement(src,desc,link){
     var card = document.createElement("div");
@@ -145,6 +150,31 @@ searchBar.addEventListener('input', (evt) => {
     searchBarText = searchBar.value;
 });
 
+function addNewRegexFilter(){
+
+
+    const newFilter = document.createElement("div");
+    newFilter.className="col";
+    
+    const btn = document.createElement("button");
+    btn.className="btn";
+
+    btn.innerText=" "+ searchBarText + " ";
+    const img = document.createElement("img");img.src="https://icons.getbootstrap.com/assets/icons/x-lg.svg";img.width=11;img.height=11;
+
+    btn.appendChild(img);
+
+    btn.addEventListener('click',(evt)=>{
+        //ripulisce il filtro e la searchBar
+        searchBarText = ""; 
+        searchBar.value = "";
+        //elimina il filtro dal doc
+        document.getElementById("FiltriAttivi").replaceChildren();
+    });
+    newFilter.appendChild(btn);
+    document.getElementById("FiltriAttivi").appendChild(newFilter);
+}
+
 var searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener('click', (evt) => {
 
@@ -157,12 +187,34 @@ searchBtn.addEventListener('click', (evt) => {
 
     //fai partire la nuova query con tutti i parametri
 
-    query(searchBarText, selectedRegione);
+    //query(searchBarText, selectedRegione, 0);
+
+    //aggiungi i nuovi filtri nella barra dei filtri
+
+    if(searchBarText != ""){
+        addNewRegexFilter();
+    }else{
+        document.getElementById("FiltriAttivi").replaceChildren();
+    }
 });
 
+var loadingAnimation = document.getElementById("loadingAnimation");
+
+var queryCollapseDiv = document.getElementById("queryCollapseText");
+
+var currentOffset = 0;
+
 function query(keyword,region){
+
+    //la barra di carimento diventa visibile
+    loadingAnimation.className = loadingAnimation.className.replace("invisible", "visible");
+
     axios.get(queryConFiltri(keyword,region))
     .then(function(value){
+
+        //la barra di carimento diventa invisibile
+        loadingAnimation.className = loadingAnimation.className.replace("visible", "invisible");
+
         console.log(value);
         generateCards(value.data);
     })
@@ -173,4 +225,4 @@ function query(keyword,region){
 
 
 
-//query("","");
+query("","",0);
