@@ -34,16 +34,41 @@ function queryConFiltri(parolaChiave, regione){
                         + " ?cultpro arco-dd:hasCulturalPropertyType ?type. " 
                         + " FILTER regex(?regNome, \"" + regione + "\", \"i\") ";
     }
-    filteredQueryURL+= "}  LIMIT " + maxCardsDisplayed + "OFFSET " + currentOffset;
+    filteredQueryURL+= "}  LIMIT " + maxCardsDisplayed + " OFFSET " + currentOffset;
+
+    //query da mostrare nella pagina
     
-    var queryText = "PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/> \n PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/> \n";
+    var queryText = "PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>\n"+"PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>\n";
     if(regione != ""){
-        queryText+="PREFIX arco-location: <https://w3id.org/arco/ontology/location/> \n"
-        +"PREFIX CLV: <https://w3id.org/italia/onto/CLV/> \n"
-        +"PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/> \n";
+        queryText+="PREFIX arco-location: <https://w3id.org/arco/ontology/location/>\n"
+        +"PREFIX CLV: <https://w3id.org/italia/onto/CLV/>\n"
+        +"PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/>\n";
     }
-    
-    //TODO
+    queryText+= "SELECT DISTINCT *\n"
+    +"FROM <https://w3id.org/arco/ontology>\n"
+    +"FROM <https://w3id.org/arco/data>\n"
+    +"WHERE {\n"
+    +"    ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ;\n"
+    +"    rdfs:label ?label" + " ;\n"
+    +"    arco-cd:hasDocumentation ?documentation" + " ;\n"
+    +"    foaf:depiction ?foto" + " ;\n"
+    +"    arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel\n"
+    +"    FILTER(lang(?label) = 'it') \n";
+    if(parolaChiave != ""){
+        queryText+= "FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) \n";
+    }
+    if(regione != "") {
+        queryText+="    ?cultpro arco-location:hasCulturalPropertyAddress ?address.\n"
+                        + "    ?address CLV:hasRegion ?region.\n" 
+                        + "    ?region rdfs:label ?regNome.\n" 
+                        + "    ?cultpro arco-dd:hasCulturalPropertyType ?type.\n" 
+                        + "    FILTER regex(?regNome, \"" + regione + "\", \"i\")\n";
+    }
+    queryText+= "}\nLIMIT " + maxCardsDisplayed + "\nOFFSET " + currentOffset;
+
+    insertQueryText(queryText);
+
+    console.log(filteredQueryURL);
 
     return filteredQueryURL;
 }
@@ -117,9 +142,14 @@ function generateCards(data){
 
         selectedRow = (selectedRow + 1) % 4;
     });
+}
 
+function insertQueryText(queryText){
+    const queryTextDiv = document.getElementById("queryCollapseText");
 
+    //TODO classi di bootstrap per evidenziare le keyword
 
+    queryTextDiv.innerText = queryText;
 }
 
 var selectedRegione = "";
@@ -144,7 +174,7 @@ document.getElementById("RegioneSicilia").addEventListener('click', (evt)=>{sele
 document.getElementById("RegioneBasilicata").addEventListener('click', (evt)=>{selectedRegione="Basilicata"});
 document.getElementById("RegioneValleAosta").addEventListener('click', (evt)=>{selectedRegione="Valle d\'Aosta"});
 
-var searchBar = document.getElementById("searchBar");
+const searchBar = document.getElementById("searchBar");
 var searchBarText = "";
 searchBar.addEventListener('input', (evt) => {
     searchBarText = searchBar.value;
@@ -168,26 +198,34 @@ function addNewRegexFilter(){
         //ripulisce il filtro e la searchBar
         searchBarText = ""; 
         searchBar.value = "";
-        //elimina il filtro dal doc
+        emptyQueryResultDiv();
+        //fa ripartire la query senza il filtro regex
+        query("",selectedRegione);
+        //ripulisce i filtri regex
         document.getElementById("FiltriAttivi").replaceChildren();
+
     });
     newFilter.appendChild(btn);
     document.getElementById("FiltriAttivi").appendChild(newFilter);
 }
 
-var searchBtn = document.getElementById("searchBtn");
-searchBtn.addEventListener('click', (evt) => {
-
+function emptyQueryResultDiv(){
     //svuota i risultati attuali
 
     document.getElementById("row1").replaceChildren();
     document.getElementById("row2").replaceChildren();
     document.getElementById("row3").replaceChildren();
     document.getElementById("row4").replaceChildren();
+}
+
+const searchBtn = document.getElementById("searchBtn");
+searchBtn.addEventListener('click', (evt) => {
+
+    emptyQueryResultDiv();
 
     //fai partire la nuova query con tutti i parametri
 
-    //query(searchBarText, selectedRegione, 0);
+    query(searchBarText, selectedRegione);
 
     //aggiungi i nuovi filtri nella barra dei filtri
 
@@ -198,11 +236,30 @@ searchBtn.addEventListener('click', (evt) => {
     }
 });
 
-var loadingAnimation = document.getElementById("loadingAnimation");
-
-var queryCollapseDiv = document.getElementById("queryCollapseText");
+const loadingAnimation = document.getElementById("loadingAnimation");
 
 var currentOffset = 0;
+const queryPageBeforeBtn = document.getElementById("queryPageBefore");
+const queryPageAfterBtn = document.getElementById("queryPageAfter");
+
+queryPageAfterBtn.addEventListener('click',(evt)=>{
+    emptyQueryResultDiv();
+
+    currentOffset+=maxCardsDisplayed;
+
+    query(searchBarText, selectedRegione);
+});
+queryPageBeforeBtn.addEventListener('click',(evt)=>{
+
+    emptyQueryResultDiv();
+
+    currentOffset-= (currentOffset < 50 ) ? 0 : maxCardsDisplayed;
+
+    query(searchBarText, selectedRegione);
+
+});
+
+
 
 function query(keyword,region){
 
@@ -225,4 +282,4 @@ function query(keyword,region){
 
 
 
-query("","",0);
+query("","");
