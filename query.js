@@ -182,6 +182,7 @@ searchBar.addEventListener('input', (evt) => {
 
 function addNewRegexFilter(){
 
+    document.getElementById("FiltriAttivi").replaceChildren();
 
     const newFilter = document.createElement("div");
     newFilter.className="col";
