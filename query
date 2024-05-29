@@ -32,7 +32,7 @@ WHERE {
  FILTER regex(?def, "chiesa", "i")
 } 
 
-#FILTRO SUL LINGUAGGIO DI UNA VARIABILE
+#FILTRO SULLA LINGUA DI UNA VARIABILE
 PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>
 PREFIX arco-cd: <https://w3id.org/arco/ontology/context-description/>
 SELECT DISTINCT *
@@ -44,3 +44,64 @@ WHERE {
  FILTER(lang(?label) = 'it')
 }
 LIMIT 10
+
+#REGIONI ED I LORO IDENTIFICATIVI
+PREFIX arco-arco: <https://w3id.org/arco/ontology/arco/>
+PREFIX arco-location: <https://w3id.org/arco/ontology/location/>
+PREFIX CLV: <https://w3id.org/italia/onto/CLV/>
+PREFIX arco-dd: <https://w3id.org/arco/ontology/denotative-description/>
+SELECT  distinct ?regNome ?regione
+WHERE {
+ ?cultpro a arco-arco:ArchitecturalOrLandscapeHeritage.
+ ?cultpro arco-arco:regionIdentifier ?regione.
+ ?cultpro arco-location:hasCulturalPropertyAddress ?address.
+ ?address CLV:hasRegion ?region.
+ ?region rdfs:label ?regNome
+} 
+ORDER BY ?regione
+
+perché funziona così?
+
+"Piemonte""01"
+"Toscana""01"
+"Lombardia""03"
+"Trentino - Alto Adige""03"
+"Trentino Alto Adige""03"
+"Trentino-Alto Adige""03"
+"Trentino-alto Adige""03"
+"Trentino Alto-adige""03"
+"Trentino- Alto Adige""03"
+"Trentino - Alto Adige""04"
+"Veneto""05"
+"Veneto?""05"
+"VENETO""05"
+"Lombardia""05"
+"Friuli-Venezia Giulia""06"
+"Friuli Venezia Giulia""06"
+"Friuli-venezia Giulia""06"
+"Friuli Venezia-giulia""06"
+"Friuli-venezia-giulia""06"
+"Liguria""07"
+"Emilia Romagna""08"
+"Emilia-Romagna""08"
+"Emilia-romagna""08"
+"Emilia - Romagna""08"
+"Emilia- Romagna""08"
+"Toscana""09"
+"Umbria""10"
+"Marche""11"
+"Toscana""11"
+"Lazio""12"
+"lazio""12"
+"Toscana""12"
+"Abruzzo""13"
+"Molise""14"
+"Campania""15"
+"Toscana""15"
+"Puglia""16"
+"Basilicata""17"
+"Calabria""18"
+"Sicilia""19"
+"Toscana""19"
+"Sardegna""20"
+"Sardegna ?" "20"

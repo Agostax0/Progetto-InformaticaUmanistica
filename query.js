@@ -22,10 +22,10 @@ function queryConFiltri(parolaChiave, regione){
     filteredQueryURL+=" SELECT DISTINCT * "
     +" FROM <https://w3id.org/arco/ontology> "
     +" FROM <https://w3id.org/arco/data> "
-    +" WHERE {  ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ;  rdfs:label ?label" + " ;  arco-cd:hasDocumentation ?documentation" + " ;  foaf:depiction ?foto" + " ; arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel FILTER(lang(?label) = 'it') ";
+    +" WHERE {  ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ;  rdfs:label ?label" + " ; foaf:depiction ?foto" + " FILTER(lang(?label) = 'it') ";
 
     if(parolaChiave != ""){
-        filteredQueryURL+= "FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) ";
+        filteredQueryURL+= "?cultpro arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) ";
     }
     if(regione != "") {
         filteredQueryURL+=" ?cultpro arco-location:hasCulturalPropertyAddress ?address. "
@@ -50,12 +50,10 @@ function queryConFiltri(parolaChiave, regione){
     +"WHERE {\n"
     +"    ?cultpro rdf:type/rdfs:subClassOf* arco-arco:"+ historicOrArtisticProperty + " ;\n"
     +"    rdfs:label ?label" + " ;\n"
-    +"    arco-cd:hasDocumentation ?documentation" + " ;\n"
     +"    foaf:depiction ?foto" + " ;\n"
-    +"    arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel\n"
     +"    FILTER(lang(?label) = 'it') \n";
     if(parolaChiave != ""){
-        queryText+= "FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) \n";
+        queryText+= " ?cultpro arco-cd:hasSubject ?sub . ?sub rdfs:label ?subLabel\n FILTER(REGEX(STR(?subLabel), \"" + parolaChiave + "\", \"i\")) \n";
     }
     if(regione != "") {
         queryText+="    ?cultpro arco-location:hasCulturalPropertyAddress ?address.\n"
