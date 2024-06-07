@@ -9,7 +9,11 @@
         <script src="https://kit.fontawesome.com/d45e7e578e.js" crossorigin="anonymous"></script>
         <style>
         body {
-            background-color: rgb(32, 160, 0);
+            background-color: rgb(145, 124, 158);
+        }
+        #dropdown-button{
+            background-color: rgb(96, 58, 158) !important;
+            color: white;
         }
         .btn[data-bs-toggle].collapsed:after {
             font-family: "Font Awesome 5 Free"; 
@@ -27,6 +31,13 @@
             position: relative;
             right: 10px;
         }
+        #titolo{
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+        a:not(#dropdown-button){
+            color: rgb(96, 58, 158) !important;
+        }
+        #queryCollapseText{color:white !important;}
     </style>
     <title>SIUM</title>
 </head>
@@ -40,7 +51,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <p class="fs-1 text-light">TITOLO</p>
+                            <p class="fs-1 text-light" id="titolo">BENI CULTURALI ITALIANI</p>
                         </div>
                     </div>
                 </div>
@@ -107,9 +118,9 @@
                                     </div>
                                     <div class="col-6">
                                         <!--Display query-->
-                                        <a class="btn btn-outline-success d-flex" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
+                                        <button class="btn btn-outline-light" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
                                             <div class="col">Query</div>
-                                        </a>
+                                        </button>
                                         <div class="collapse" id="collapseQuery">
                                             <div class="div" id="queryCollapseText"></div>
                                         </div>
@@ -135,7 +146,7 @@
                                                         <input id="searchBar" class="form-control" type="search" placeholder="Search" aria-label="Search">
                                                     </div>
                                                     <div class="col-4">
-                                                        <button id="searchBtn" class="btn btn-outline-success" type="button">Search</button>
+                                                        <button id="searchBtn" class="btn btn-outline-light" type="button">Search</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,9 +155,9 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="container-fluid">
-                                                        <a class="btn btn-primary d-flex" data-bs-toggle="collapse"
+                                                        <a class="btn  d-flex" data-bs-toggle="collapse"
                                                             href="#collapseRegione" role="button" aria-expanded="false"
-                                                            aria-controls="collapseRegione">
+                                                            aria-controls="collapseRegione" id="dropdown-button">
                                                             <div class="col">Regione di provenienza</div>
                                                         </a>
                                                         <div class="collapse" id="collapseRegione">
