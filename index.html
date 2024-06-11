@@ -21,7 +21,8 @@
             content: "\f078"; 
             color:  #444444;
             position: relative;
-            right: 10px;
+            left: 5px;
+            right: 20px;
         }
         .btn[data-bs-toggle]:not(.collapsed):after {
             font-family: "Font Awesome 5 Free"; 
@@ -29,7 +30,8 @@
             content: "\f077"; 
             color:  #444444;
             position: relative;
-            right: 10px;
+            left: 5px;
+            right: 20px;
         }
         #titolo{
             font-family: 'Times New Roman', Times, serif !important;
@@ -118,11 +120,17 @@
                                     </div>
                                     <div class="col-6">
                                         <!--Display query-->
-                                        <button class="btn btn-outline-light" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
-                                            <div class="col">Query</div>
-                                        </button>
-                                        <div class="collapse" id="collapseQuery">
-                                            <div class="div" id="queryCollapseText"></div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button class="btn btn-outline-light btn-block w-100" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
+                                                    Query
+                                                </button>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="collapse" id="collapseQuery">
+                                                    <div class="div" id="queryCollapseText"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -140,19 +148,19 @@
                                     <div class="row">
                                         <div class="col">
                                             <!-- SEARCH BAR -->
-                                            <div class="container-fluid">
+                                            <div class="container">
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <input id="searchBar" class="form-control" type="search" placeholder="Search" aria-label="Search">
                                                     </div>
                                                     <div class="col-4">
-                                                        <button id="searchBtn" class="btn btn-outline-light" type="button">Search</button>
+                                                        <button id="searchBtn" class="btn btn-outline-light btn-block w-100" type="button">Search</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- FILTRI DROPDOWN -->
                                             <!--FILTRO REGIONE-->
-                                            <div class="row">
+                                            <div class="row mt-2">
                                                 <div class="col">
                                                     <div class="container-fluid">
                                                         <a class="btn  d-flex" data-bs-toggle="collapse"
@@ -162,24 +170,25 @@
                                                         </a>
                                                         <div class="collapse" id="collapseRegione">
                                                             <!--DROPDOWN CON FILTRO REGIONE-->
+
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneCalabria">
                                                                 <label class="form-check-label" for="RegioneCalabria">
                                                                     Calabria
                                                                 </label>
-                                                              </div>
-                                                              <div class="form-check">
+                                                            </div>
+                                                            <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneLazio">
                                                                 <label class="form-check-label" for="RegioneLazio">
                                                                     Lazio
                                                                 </label>
-                                                              </div>
-                                                              <div class="form-check">
+                                                            </div>
+                                                            <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneLiguria">
                                                                 <label class="form-check-label" for="RegioneLiguria">
                                                                     Liguria
                                                                 </label>
-                                                              </div>
+                                                            </div>
                                                               <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="RegioneMarche">
                                                                 <label class="form-check-label" for="RegioneMarche">
@@ -293,7 +302,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--FILTRO TIPOLOGIA-->
     
                                         </div>
                                     </div>
