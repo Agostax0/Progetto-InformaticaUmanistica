@@ -151,26 +151,46 @@ function insertQueryText(queryText){
 }
 
 var selectedRegione = "";
-document.getElementById("RegioneCalabria").addEventListener('click', (evt)=>{selectedRegione="Calabria"});
-document.getElementById("RegioneLazio").addEventListener('click', (evt)=>{selectedRegione="Lazio"});
-document.getElementById("RegioneLiguria").addEventListener('click', (evt)=>{selectedRegione="Liguria"});
-document.getElementById("RegioneMarche").addEventListener('click', (evt)=>{selectedRegione="Marche"});
-document.getElementById("RegioneMolise").addEventListener('click', (evt)=>{selectedRegione="Molise"});
-document.getElementById("RegionePuglia").addEventListener('click', (evt)=>{selectedRegione="Puglia"});
-document.getElementById("RegioneSardegna").addEventListener('click', (evt)=>{selectedRegione="Sardegna"});
-document.getElementById("RegioneToscana").addEventListener('click', (evt)=>{selectedRegione="Toscana"});
-document.getElementById("RegioneVeneto").addEventListener('click', (evt)=>{selectedRegione="Veneto"});
-document.getElementById("RegioneEmiliaRomagna").addEventListener('click', (evt)=>{selectedRegione="EmiliaRomagna"});
-document.getElementById("RegioneAbruzzo").addEventListener('click', (evt)=>{selectedRegione="Abruzzo"});
-document.getElementById("RegioneCampania").addEventListener('click', (evt)=>{selectedRegione="Campania"});
-document.getElementById("RegioneLombardia").addEventListener('click', (evt)=>{selectedRegione="Lombardia"});
-document.getElementById("RegionePiemonte").addEventListener('click', (evt)=>{selectedRegione="Piemonte"});
-document.getElementById("RegioneFriuli-VeneziaGiulia").addEventListener('click', (evt)=>{selectedRegione="Friuli-Venezia Giulia"});
-document.getElementById("RegioneUmbria").addEventListener('click', (evt)=>{selectedRegione="Umbria"});
-document.getElementById("RegioneTrentino-AltoAdige").addEventListener('click', (evt)=>{selectedRegione="Trentino-Alto Adige"});
-document.getElementById("RegioneSicilia").addEventListener('click', (evt)=>{selectedRegione="Sicilia"});
-document.getElementById("RegioneBasilicata").addEventListener('click', (evt)=>{selectedRegione="Basilicata"});
-document.getElementById("RegioneValleAosta").addEventListener('click', (evt)=>{selectedRegione="Valle d\'Aosta"});
+const calabria = document.getElementById("RegioneCalabria");
+calabria.addEventListener('click', (evt)=>{selectedRegione="Calabria"; addNewRegexFilter("RegioneCalabria")});
+const lazio = document.getElementById("RegioneLazio");
+lazio.addEventListener('click', (evt)=>{selectedRegione="Lazio"; addNewRegexFilter("RegioneLazio")});
+const liguria = document.getElementById("RegioneLiguria");
+liguria.addEventListener('click', (evt)=>{selectedRegione="Liguria"; addNewRegexFilter("RegioneLiguria")});
+const marche = document.getElementById("RegioneMarche");
+marche.addEventListener('click', (evt)=>{selectedRegione="Marche"; addNewRegexFilter("RegioneMarche")});
+const molise = document.getElementById("RegioneMolise");
+molise.addEventListener('click', (evt)=>{selectedRegione="Molise"; addNewRegexFilter("RegioneMolise")});
+const puglia = document.getElementById("RegionePuglia");
+puglia.addEventListener('click', (evt)=>{selectedRegione="Puglia"; addNewRegexFilter("RegionePuglia")});
+const sardegna = document.getElementById("RegioneSardegna");
+sardegna.addEventListener('click', (evt)=>{selectedRegione="Sardegna"; addNewRegexFilter("RegioneSardegna")});
+const toscana = document.getElementById("RegioneToscana");
+toscana.addEventListener('click', (evt)=>{selectedRegione="Toscana"; addNewRegexFilter("RegioneToscana")});
+const veneto = document.getElementById("RegioneVeneto");
+veneto.addEventListener('click', (evt)=>{selectedRegione="Veneto"; addNewRegexFilter("RegioneVeneto")});
+const emiliaRomagna = document.getElementById("RegioneEmiliaRomagna");
+emiliaRomagna.addEventListener('click', (evt)=>{selectedRegione="EmiliaRomagna"; addNewRegexFilter("RegioneEmiliaRomagna")});
+const abruzzo = document.getElementById("RegioneAbruzzo");
+abruzzo.addEventListener('click', (evt)=>{selectedRegione="Abruzzo"; addNewRegexFilter("RegioneAbruzzo")});
+const campania = document.getElementById("RegioneCampania");
+campania.addEventListener('click', (evt)=>{selectedRegione="Campania"; addNewRegexFilter("RegioneCampania")});
+const lombardia = document.getElementById("RegioneLombardia");
+lombardia.addEventListener('click', (evt)=>{selectedRegione="Lombardia"; addNewRegexFilter("RegioneLombardia")});
+const piemonte = document.getElementById("RegionePiemonte");
+piemonte.addEventListener('click', (evt)=>{selectedRegione="Piemonte"; addNewRegexFilter("RegionePiemonte")});
+const fruiliVeneziaGiulia = document.getElementById("RegioneFriuli-VeneziaGiulia");
+fruiliVeneziaGiulia.addEventListener('click', (evt)=>{selectedRegione="Friuli-Venezia Giulia"; addNewRegexFilter("RegioneFriuli-VeneziaGiulia")});
+const umbria = document.getElementById("RegioneUmbria");
+umbria.addEventListener('click', (evt)=>{selectedRegione="Umbria"; addNewRegexFilter("RegioneUmbria")});
+const trentinoAltoAdige = document.getElementById("RegioneTrentino-AltoAdige");
+trentinoAltoAdige.addEventListener('click', (evt)=>{selectedRegione="Trentino-Alto Adige"; addNewRegexFilter("RegioneTrentino-AltoAdige")});
+const sicilia = document.getElementById("RegioneSicilia");
+sicilia.addEventListener('click', (evt)=>{selectedRegione="Sicilia"; addNewRegexFilter("RegioneSicilia")});
+const basilicata = document.getElementById("RegioneBasilicata");
+basilicata.addEventListener('click', (evt)=>{selectedRegione="Basilicata"; addNewRegexFilter("RegioneBasilicata")});
+const valleAosta = document.getElementById("RegioneValleAosta");
+valleAosta.addEventListener('click', (evt)=>{selectedRegione="Valle d\'Aosta"; addNewRegexFilter("RegioneValleAosta")});
 
 const searchBar = document.getElementById("searchBar");
 var searchBarText = "";
@@ -178,34 +198,61 @@ searchBar.addEventListener('input', (evt) => {
     searchBarText = searchBar.value;
 });
 
-function addNewRegexFilter(){
+function addNewRegexFilter(regioneSelezionata){
 
     document.getElementById("FiltriAttivi").replaceChildren();
 
-    const newFilter = document.createElement("div");
-    newFilter.className="col";
-    
-    const btn = document.createElement("button");
-    btn.className="btn";
+    if(searchBarText!=""){
+        const newFilter = document.createElement("div");
+        newFilter.className="col";
+        
+        const btn = document.createElement("button");
+        btn.className="btn";
 
-    btn.innerText=" "+ searchBarText + " ";
-    const img = document.createElement("img");img.src="https://icons.getbootstrap.com/assets/icons/x-lg.svg";img.width=11;img.height=11;
+        btn.innerText=" "+ searchBarText + " ";
+        const img = document.createElement("img");img.src="https://icons.getbootstrap.com/assets/icons/x-lg.svg";img.width=11;img.height=11;
 
-    btn.appendChild(img);
+        btn.appendChild(img);
 
-    btn.addEventListener('click',(evt)=>{
-        //ripulisce il filtro e la searchBar
-        searchBarText = ""; 
-        searchBar.value = "";
-        emptyQueryResultDiv();
-        //fa ripartire la query senza il filtro regex
-        query("",selectedRegione);
-        //ripulisce i filtri regex
-        document.getElementById("FiltriAttivi").replaceChildren();
+        btn.addEventListener('click',(evt)=>{
+            //ripulisce il filtro e la searchBar
+            searchBarText = ""; 
+            searchBar.value = "";
+            emptyQueryResultDiv();
+            //fa ripartire la query senza il filtro regex
+            query("",selectedRegione);
+            //ripulisce i filtri regex
+            addNewRegexFilter();
+        });
+        newFilter.appendChild(btn);
+        document.getElementById("FiltriAttivi").appendChild(newFilter);
+    }
 
-    });
-    newFilter.appendChild(btn);
-    document.getElementById("FiltriAttivi").appendChild(newFilter);
+    if(selectedRegione!=""){
+        const newFilter = document.createElement("div");
+        newFilter.className="col";
+        
+        const btn = document.createElement("button");
+        btn.className="btn";
+
+        btn.innerText=" "+ selectedRegione + " ";
+        const img = document.createElement("img");img.src="https://icons.getbootstrap.com/assets/icons/x-lg.svg";img.width=11;img.height=11;
+
+        btn.appendChild(img);
+
+        btn.addEventListener('click',(evt)=>{
+            //ripulisce il radio checkbox e la regione
+            selectedRegione = "";
+            document.getElementById(regioneSelezionata).checked=false; 
+            emptyQueryResultDiv();
+            //fa ripartire la query senza la regione
+            query(searchBarText,"");
+            //ripulisce i filtri regex
+            addNewRegexFilter();
+        });
+        newFilter.appendChild(btn);
+        document.getElementById("FiltriAttivi").appendChild(newFilter);
+    }
 }
 
 function emptyQueryResultDiv(){
@@ -278,7 +325,8 @@ function query(keyword,region){
         console.log(error);
     });    
 }
+//document.getElementById("flexCheckChecked").checked=false;
+//console.log(document.getElementById("flexCheckChecked").checked);
 
 
-
-query("","");
+//query("","");
