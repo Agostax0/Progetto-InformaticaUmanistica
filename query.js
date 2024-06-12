@@ -152,45 +152,45 @@ function insertQueryText(queryText){
 
 var selectedRegione = "";
 const calabria = document.getElementById("RegioneCalabria");
-calabria.addEventListener('click', (evt)=>{selectedRegione="Calabria"; addNewRegexFilter("RegioneCalabria")});
+calabria.addEventListener('click', (evt)=>{selectedRegione="Calabria"; addNewRegexFilter()});
 const lazio = document.getElementById("RegioneLazio");
-lazio.addEventListener('click', (evt)=>{selectedRegione="Lazio"; addNewRegexFilter("RegioneLazio")});
+lazio.addEventListener('click', (evt)=>{selectedRegione="Lazio"; addNewRegexFilter()});
 const liguria = document.getElementById("RegioneLiguria");
-liguria.addEventListener('click', (evt)=>{selectedRegione="Liguria"; addNewRegexFilter("RegioneLiguria")});
+liguria.addEventListener('click', (evt)=>{selectedRegione="Liguria"; addNewRegexFilter()});
 const marche = document.getElementById("RegioneMarche");
-marche.addEventListener('click', (evt)=>{selectedRegione="Marche"; addNewRegexFilter("RegioneMarche")});
+marche.addEventListener('click', (evt)=>{selectedRegione="Marche"; addNewRegexFilter()});
 const molise = document.getElementById("RegioneMolise");
-molise.addEventListener('click', (evt)=>{selectedRegione="Molise"; addNewRegexFilter("RegioneMolise")});
+molise.addEventListener('click', (evt)=>{selectedRegione="Molise"; addNewRegexFilter()});
 const puglia = document.getElementById("RegionePuglia");
-puglia.addEventListener('click', (evt)=>{selectedRegione="Puglia"; addNewRegexFilter("RegionePuglia")});
+puglia.addEventListener('click', (evt)=>{selectedRegione="Puglia"; addNewRegexFilter()});
 const sardegna = document.getElementById("RegioneSardegna");
-sardegna.addEventListener('click', (evt)=>{selectedRegione="Sardegna"; addNewRegexFilter("RegioneSardegna")});
+sardegna.addEventListener('click', (evt)=>{selectedRegione="Sardegna"; addNewRegexFilter()});
 const toscana = document.getElementById("RegioneToscana");
-toscana.addEventListener('click', (evt)=>{selectedRegione="Toscana"; addNewRegexFilter("RegioneToscana")});
+toscana.addEventListener('click', (evt)=>{ selectedRegione="Toscana"; addNewRegexFilter()});
 const veneto = document.getElementById("RegioneVeneto");
-veneto.addEventListener('click', (evt)=>{selectedRegione="Veneto"; addNewRegexFilter("RegioneVeneto")});
+veneto.addEventListener('click', (evt)=>{selectedRegione="Veneto"; addNewRegexFilter()});
 const emiliaRomagna = document.getElementById("RegioneEmiliaRomagna");
-emiliaRomagna.addEventListener('click', (evt)=>{selectedRegione="EmiliaRomagna"; addNewRegexFilter("RegioneEmiliaRomagna")});
+emiliaRomagna.addEventListener('click', (evt)=>{selectedRegione="EmiliaRomagna"; addNewRegexFilter()});
 const abruzzo = document.getElementById("RegioneAbruzzo");
-abruzzo.addEventListener('click', (evt)=>{selectedRegione="Abruzzo"; addNewRegexFilter("RegioneAbruzzo")});
+abruzzo.addEventListener('click', (evt)=>{selectedRegione="Abruzzo"; addNewRegexFilter()});
 const campania = document.getElementById("RegioneCampania");
-campania.addEventListener('click', (evt)=>{selectedRegione="Campania"; addNewRegexFilter("RegioneCampania")});
+campania.addEventListener('click', (evt)=>{selectedRegione="Campania"; addNewRegexFilter()});
 const lombardia = document.getElementById("RegioneLombardia");
-lombardia.addEventListener('click', (evt)=>{selectedRegione="Lombardia"; addNewRegexFilter("RegioneLombardia")});
+lombardia.addEventListener('click', (evt)=>{selectedRegione="Lombardia"; addNewRegexFilter()});
 const piemonte = document.getElementById("RegionePiemonte");
-piemonte.addEventListener('click', (evt)=>{selectedRegione="Piemonte"; addNewRegexFilter("RegionePiemonte")});
+piemonte.addEventListener('click', (evt)=>{selectedRegione="Piemonte"; addNewRegexFilter()});
 const fruiliVeneziaGiulia = document.getElementById("RegioneFriuli-VeneziaGiulia");
-fruiliVeneziaGiulia.addEventListener('click', (evt)=>{selectedRegione="Friuli-Venezia Giulia"; addNewRegexFilter("RegioneFriuli-VeneziaGiulia")});
+fruiliVeneziaGiulia.addEventListener('click', (evt)=>{selectedRegione="Friuli-Venezia Giulia"; addNewRegexFilter()});
 const umbria = document.getElementById("RegioneUmbria");
-umbria.addEventListener('click', (evt)=>{selectedRegione="Umbria"; addNewRegexFilter("RegioneUmbria")});
+umbria.addEventListener('click', (evt)=>{selectedRegione="Umbria"; addNewRegexFilter()});
 const trentinoAltoAdige = document.getElementById("RegioneTrentino-AltoAdige");
-trentinoAltoAdige.addEventListener('click', (evt)=>{selectedRegione="Trentino-Alto Adige"; addNewRegexFilter("RegioneTrentino-AltoAdige")});
+trentinoAltoAdige.addEventListener('click', (evt)=>{selectedRegione="Trentino-Alto Adige"; addNewRegexFilter()});
 const sicilia = document.getElementById("RegioneSicilia");
-sicilia.addEventListener('click', (evt)=>{selectedRegione="Sicilia"; addNewRegexFilter("RegioneSicilia")});
+sicilia.addEventListener('click', (evt)=>{selectedRegione="Sicilia"; addNewRegexFilter()});
 const basilicata = document.getElementById("RegioneBasilicata");
-basilicata.addEventListener('click', (evt)=>{selectedRegione="Basilicata"; addNewRegexFilter("RegioneBasilicata")});
+basilicata.addEventListener('click', (evt)=>{selectedRegione="Basilicata"; addNewRegexFilter()});
 const valleAosta = document.getElementById("RegioneValleAosta");
-valleAosta.addEventListener('click', (evt)=>{selectedRegione="Valle d\'Aosta"; addNewRegexFilter("RegioneValleAosta")});
+valleAosta.addEventListener('click', (evt)=>{selectedRegione="Valle d\'Aosta"; addNewRegexFilter()});
 
 const searchBar = document.getElementById("searchBar");
 var searchBarText = "";
@@ -198,10 +198,10 @@ searchBar.addEventListener('input', (evt) => {
     searchBarText = searchBar.value;
 });
 
-function addNewRegexFilter(regioneSelezionata){
+function addNewRegexFilter(){
 
     document.getElementById("FiltriAttivi").replaceChildren();
-
+    console.log("searchbartext: " + searchBarText);
     if(searchBarText!=""){
         const newFilter = document.createElement("div");
         newFilter.className="col";
@@ -228,7 +228,9 @@ function addNewRegexFilter(regioneSelezionata){
         document.getElementById("FiltriAttivi").appendChild(newFilter);
     }
 
+    console.log("selected regione: " + selectedRegione);
     if(selectedRegione!=""){
+        
         const newFilter = document.createElement("div");
         newFilter.className="col";
         
@@ -243,13 +245,14 @@ function addNewRegexFilter(regioneSelezionata){
         btn.addEventListener('click',(evt)=>{
             //ripulisce il radio checkbox e la regione
             selectedRegione = "";
-            document.getElementById(regioneSelezionata).checked=false; 
+            document.getElementById("hiddenForm").click(); 
             emptyQueryResultDiv();
             //fa ripartire la query senza la regione
             query(searchBarText,"");
             //ripulisce i filtri regex
             addNewRegexFilter();
         });
+
         newFilter.appendChild(btn);
         document.getElementById("FiltriAttivi").appendChild(newFilter);
     }
@@ -325,8 +328,5 @@ function query(keyword,region){
         console.log(error);
     });    
 }
-//document.getElementById("flexCheckChecked").checked=false;
-//console.log(document.getElementById("flexCheckChecked").checked);
 
-
-//query("","");
+query("","");
