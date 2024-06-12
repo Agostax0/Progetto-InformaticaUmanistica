@@ -11,35 +11,51 @@
         body {
             background-color: rgb(145, 124, 158);
         }
-        #dropdown-button{
-            background-color: rgb(96, 58, 158) !important;
-            color: white;
+        #region-dropdown-button[data-bs-toggle].collapsed:after {
+            font-family: "Font Awesome 5 Free"; 
+            font-weight: 900; 
+            content: "\f078"; 
+            color:  #a5a2a2;
+            position: relative;
+            left: 5px;
+            
+            
         }
-        .btn[data-bs-toggle].collapsed:after {
+        #region-dropdown-button[data-bs-toggle]:not(.collapsed):after {
+            font-family: "Font Awesome 5 Free"; 
+            font-weight: 900; 
+            content: "\f077"; 
+            color:  #a5a2a2;
+            position: relative;
+            left: 5px;
+            
+        }
+        #query-collapse-button[data-bs-toggle].collapsed:after {
             font-family: "Font Awesome 5 Free"; 
             font-weight: 900; 
             content: "\f078"; 
             color:  #444444;
             position: relative;
-            left: 5px;
-            right: 20px;
+            left: 75px;
         }
-        .btn[data-bs-toggle]:not(.collapsed):after {
+        #query-collapse-button[data-bs-toggle]:not(.collapsed):after {
             font-family: "Font Awesome 5 Free"; 
             font-weight: 900; 
             content: "\f077"; 
             color:  #444444;
             position: relative;
-            left: 5px;
-            right: 20px;
+            left: 75px;
+        }
+        #region-dropdown-button{
+            background-color: rgb(96, 58, 158) !important;
+            color: white;
         }
         #titolo{
             font-family: 'Times New Roman', Times, serif !important;
         }
-        a:not(#dropdown-button){
-            color: rgb(96, 58, 158) !important;
+        #queryCollapseText{
+            color:white ;
         }
-        #queryCollapseText{color:white !important;}
     </style>
     <title>SIUM</title>
 </head>
@@ -122,7 +138,7 @@
                                         <!--Display query-->
                                         <div class="row">
                                             <div class="col-12">
-                                                <button class="btn btn-outline-light btn-block w-100" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
+                                                <button id="query-collapse-button" class="btn btn-outline-light btn-block w-100" data-bs-toggle="collapse" href="#collapseQuery" role="button" aria-expanded="false" aria-controls="collapsQuery">
                                                     Query
                                                 </button>
                                             </div>
@@ -163,9 +179,9 @@
                                             <div class="row mt-2">
                                                 <div class="col">
                                                     <div class="container-fluid">
-                                                        <a class="btn  d-flex" data-bs-toggle="collapse"
+                                                        <a class="btn d-flex" data-bs-toggle="collapse"
                                                             href="#collapseRegione" role="button" aria-expanded="false"
-                                                            aria-controls="collapseRegione" id="dropdown-button">
+                                                            aria-controls="collapseRegione" id="region-dropdown-button">
                                                             <div class="col">Regione di provenienza</div>
                                                         </a>
                                                         <div class="collapse" id="collapseRegione">

@@ -144,9 +144,6 @@ function generateCards(data){
 
 function insertQueryText(queryText){
     const queryTextDiv = document.getElementById("queryCollapseText");
-
-    //TODO classi di bootstrap per evidenziare le keyword
-
     queryTextDiv.innerText = queryText;
 }
 
