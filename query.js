@@ -283,7 +283,7 @@ searchBtn.addEventListener('click', (evt) => {
 });
 
 const loadingAnimation = document.getElementById("loadingAnimation");
-
+const errorDisplayDiv = document.getElementById("errorDisplay");
 var currentOffset = 0;
 const queryPageBeforeBtn = document.getElementById("queryPageBefore");
 const queryPageAfterBtn = document.getElementById("queryPageAfter");
@@ -318,10 +318,17 @@ function query(keyword,region){
         //la barra di carimento diventa invisibile
         loadingAnimation.className = loadingAnimation.className.replace("visible", "invisible");
 
+        errorDisplayDiv.innerText = "";
+
         console.log(value);
         generateCards(value.data);
     })
     .catch(function(error){
+        //la barra di carimento diventa invisibile
+        loadingAnimation.className = loadingAnimation.className.replace("visible", "invisible");
+
+        errorDisplayDiv.innerText = error.response['status'] + " " + error.response['statusText'];
+
         console.log(error);
     });    
 }
